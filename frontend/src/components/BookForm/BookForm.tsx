@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import "./BookForm.css";
 import { useDispatch } from "react-redux";
 import { addBook } from "../../redux/books-slice";
+import booksData from "../../data/books.json";
 
 export const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -15,6 +16,12 @@ export const BookForm = () => {
       setTitle("");
       setAuthor("");
     }
+  };
+
+  const handleAddRandomBook = () => {
+    const randomInd = Math.floor(Math.random() * booksData.length);
+    const randomBook = booksData[randomInd];
+    dispatch(addBook(randomBook));
   };
 
   return (
@@ -40,6 +47,9 @@ export const BookForm = () => {
           />
         </div>
         <button type="submit">Add Book</button>
+        <button type="button" onClick={handleAddRandomBook}>
+          Add Random
+        </button>
       </form>
     </div>
   );

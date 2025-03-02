@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./BookList.css";
 import { RootState } from "../../redux/store";
 import { removeBook } from "../../redux/books-slice";
+import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
 
 export const BookList = () => {
   const booksListItems = useSelector((state: RootState) => state.books);
@@ -20,6 +21,11 @@ export const BookList = () => {
                 {++i}. {book.title} by <strong>{book.author}</strong>
               </div>
               <div className="book-actions">
+                {book.isFavorite ? (
+                  <BsBookmarkHeartFill className="star-icon" />
+                ) : (
+                  <BsBookmarkHeart className="star-icon" />
+                )}
                 <button onClick={() => handleClickDelete(book.id)}>
                   delete
                 </button>

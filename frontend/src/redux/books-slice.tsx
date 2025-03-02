@@ -6,6 +6,7 @@ type Book = {
   id: string;
   title: string;
   author: string;
+  isFavorite: boolean;
 };
 
 export const booksSlice = createSlice({
@@ -17,6 +18,7 @@ export const booksSlice = createSlice({
         const newBook: Book = {
           title: action.payload.title,
           author: action.payload.author,
+          isFavorite: false,
           id: nanoid(),
         };
         return [...state, newBook];
