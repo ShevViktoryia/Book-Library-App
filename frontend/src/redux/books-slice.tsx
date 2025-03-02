@@ -27,8 +27,15 @@ export const booksSlice = createSlice({
     removeBook: create.reducer<{ bookId: string }>((state, action) => {
       return state.filter((book) => book.id !== action.payload.bookId);
     }),
+    toggleFavorite: create.reducer<{ bookId: string }>((state, action) => {
+      return state.map((book) =>
+        book.id === action.payload.bookId
+          ? { ...book, isFavorite: !book.isFavorite }
+          : book
+      );
+    }),
   }),
 });
 
 export const booksReducer = booksSlice.reducer;
-export const { addBook, removeBook } = booksSlice.actions;
+export const { addBook, removeBook, toggleFavorite } = booksSlice.actions;
