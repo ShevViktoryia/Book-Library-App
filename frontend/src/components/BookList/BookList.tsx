@@ -6,9 +6,16 @@ import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
 
 export const BookList = () => {
   const booksListItems = useSelector((state: RootState) => state.books);
-  const searchValue = useSelector((state: RootState) => state.filter.search);
-  const bookList = booksListItems.filter((book) =>
-    book.title.toLowerCase().includes(searchValue.toLowerCase())
+  const searchAuthorValue = useSelector(
+    (state: RootState) => state.filter.author
+  );
+  const searchTitleValue = useSelector(
+    (state: RootState) => state.filter.title
+  );
+  const bookList = booksListItems.filter(
+    (book) =>
+      book.title.toLowerCase().includes(searchTitleValue.toLowerCase()) &&
+      book.author.toLowerCase().includes(searchAuthorValue.toLowerCase())
   );
   const dispatch = useDispatch();
   const handleClickDelete = (bookId: string) => {

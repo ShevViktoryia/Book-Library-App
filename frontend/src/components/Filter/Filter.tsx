@@ -1,15 +1,29 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./Filter.css";
-import { resetFilter, updateFilterValue } from "../../redux/filter-slice";
+import {
+  resetFilter,
+  updateFilterAuthorValue,
+  updateFilterTitleValue,
+} from "../../redux/filter-slice";
 import { ChangeEvent } from "react";
 import { RootState } from "../../redux/store";
 
 export const Filter = () => {
-  const searchValue = useSelector((state: RootState) => state.filter.search);
+  const searchTitleValue = useSelector(
+    (state: RootState) => state.filter.title
+  );
+  const searchAuthorValue = useSelector(
+    (state: RootState) => state.filter.author
+  );
   const dispatch = useDispatch();
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateFilterValue({ searchValue: e.currentTarget.value }));
+
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateFilterTitleValue({ titleValue: e.currentTarget.value }));
   };
+  const handleChangeAuthor = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateFilterAuthorValue({ authorValue: e.currentTarget.value }));
+  };
+
   const handleResetBtn = () => {
     dispatch(resetFilter());
   };
@@ -20,8 +34,16 @@ export const Filter = () => {
           <input
             type="text"
             placeholder="Filter by title..."
-            value={searchValue}
-            onChange={handleChange}
+            value={searchTitleValue}
+            onChange={handleChangeTitle}
+          />
+        </div>
+        <div className="filter-group">
+          <input
+            type="text"
+            placeholder="Filter by author..."
+            value={searchAuthorValue}
+            onChange={handleChangeAuthor}
           />
         </div>
         <button onClick={handleResetBtn}>reset filter</button>
