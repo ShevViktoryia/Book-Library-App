@@ -6,6 +6,10 @@ import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
 
 export const BookList = () => {
   const booksListItems = useSelector((state: RootState) => state.books);
+  const searchValue = useSelector((state: RootState) => state.filter.search);
+  const bookList = booksListItems.filter((book) =>
+    book.title.toLowerCase().includes(searchValue.toLowerCase())
+  );
   const dispatch = useDispatch();
   const handleClickDelete = (bookId: string) => {
     dispatch(removeBook({ bookId }));
@@ -16,9 +20,9 @@ export const BookList = () => {
   return (
     <div className="app-block book-list">
       <h2>Book List</h2>
-      {booksListItems ? (
+      {bookList ? (
         <ul>
-          {booksListItems.map((book, i) => (
+          {bookList.map((book, i) => (
             <li key={book.id}>
               <div className="book-info">
                 {++i}. {book.title} by <strong>{book.author}</strong>
