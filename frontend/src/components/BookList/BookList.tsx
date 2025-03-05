@@ -12,10 +12,15 @@ export const BookList = () => {
   const searchTitleValue = useSelector(
     (state: RootState) => state.filter.title
   );
-  const bookList = booksListItems.filter(
-    (book) =>
-      book.title.toLowerCase().includes(searchTitleValue.toLowerCase()) &&
-      book.author.toLowerCase().includes(searchAuthorValue.toLowerCase())
+  const isfavoriteBooks = useSelector(
+    (state: RootState) => state.filter.isFavorite
+  );
+  const bookList = booksListItems.filter((book) =>
+    book.title.toLowerCase().includes(searchTitleValue.toLowerCase()) &&
+    book.author.toLowerCase().includes(searchAuthorValue.toLowerCase()) &&
+    isfavoriteBooks
+      ? book.isFavorite
+      : true
   );
   const dispatch = useDispatch();
   const handleClickDelete = (bookId: string) => {

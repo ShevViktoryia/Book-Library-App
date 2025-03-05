@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./Filter.css";
 import {
+  getOnlyFavorite,
   resetFilter,
   updateFilterAuthorValue,
   updateFilterTitleValue,
@@ -15,6 +16,10 @@ export const Filter = () => {
   const searchAuthorValue = useSelector(
     (state: RootState) => state.filter.author
   );
+  const isfavoriteBooks = useSelector(
+    (state: RootState) => state.filter.isFavorite
+  );
+
   const dispatch = useDispatch();
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +32,11 @@ export const Filter = () => {
   const handleResetBtn = () => {
     dispatch(resetFilter());
   };
+
+  const handleGetFavoriteBooks = () => {
+    dispatch(getOnlyFavorite());
+  };
+
   return (
     <div className="app-block filter">
       <div className="filter-row">
@@ -45,6 +55,17 @@ export const Filter = () => {
             value={searchAuthorValue}
             onChange={handleChangeAuthor}
           />
+        </div>
+        <div className="filter-group">
+          <label htmlFor="favorite">
+            <input
+              type="checkbox"
+              id="favorite"
+              checked={isfavoriteBooks}
+              onChange={handleGetFavoriteBooks}
+            />
+            Only Favorite
+          </label>
         </div>
         <button onClick={handleResetBtn}>reset filter</button>
       </div>
