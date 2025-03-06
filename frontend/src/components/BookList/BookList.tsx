@@ -29,6 +29,22 @@ export const BookList = () => {
   const handleToggleFavorite = (bookId: string) => {
     dispatch(toggleFavorite({ bookId }));
   };
+
+  const highlightMatch = (text: string, filter: string) => {
+    if (!filter) return text;
+    const reg = new RegExp(`(${filter})`, "gi");
+    return text.split(reg).map((substr, i) => {
+      if (substr.toLowerCase() === filter.toLowerCase()) {
+        return (
+          <span key={i} className="highlight">
+            {substr}
+          </span>
+        );
+      }
+      return substr;
+    });
+  };
+
   return (
     <div className="app-block book-list">
       <h2>Book List</h2>
@@ -37,7 +53,10 @@ export const BookList = () => {
           {bookList.map((book, i) => (
             <li key={book.id}>
               <div className="book-info">
-                {++i}. {book.title} by <strong>{book.author}</strong>
+                {++i}. {highlightMatch(book.title, searchTitleValue)} by{" "}
+                <strong>
+                  {highlightMatch(book.author, searchAuthorValue)}
+                </strong>
               </div>
               <div className="book-actions">
                 <span onClick={() => handleToggleFavorite(book.id)}>
