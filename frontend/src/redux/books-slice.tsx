@@ -1,4 +1,5 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState: Book[] = [];
 
@@ -8,6 +9,14 @@ type Book = {
   author: string;
   isFavorite: boolean;
 };
+
+export const fetchBook = createAsyncThunk<Book, void>(
+  "books/fetchBook",
+  async () => {
+    const res = await axios.get("http://localhost:4000/random-book");
+    return res.data;
+  }
+);
 
 export const booksSlice = createSlice({
   name: "books",
@@ -35,6 +44,17 @@ export const booksSlice = createSlice({
       );
     }),
   }),
+  extraReducers: (builder) => {
+    builder.addCase(fetchBook.fulfilled, (state, action) => {
+      const newBook: Book = {
+        title: action.payload.title,
+        author: action.payload.author,
+        isFavorite: false,
+        id: nanoid(),
+      };
+      if (action.payload.title && action.payload.author) state.push(newBook);
+    });
+  },
 });
 
 export const booksReducer = booksSlice.reducer;
